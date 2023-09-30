@@ -5,7 +5,8 @@ const Route = express.Router();
 const tourRoute = require('./../Controllers/tourControllers')
 
 
-
+Route.route('/topFiveBestTour').get(tourRoute.aliasTopFive, tourRoute.getAllTour)
+Route.route('/getStats').get(tourRoute.tourStats);
 Route.route('/').get(tourRoute.getAllTour).post(tourRoute.createTour)
 Route.route('/:id').patch(tourRoute.updateTourById).delete(tourRoute.deleteTourById).get(tourRoute.getTourById)
 
