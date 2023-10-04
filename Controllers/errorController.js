@@ -3,9 +3,9 @@ const AppError = require("../utils/AppError");
 
 function handleDublicateDB(err) {
 
-
-    return new AppError(`the field with ${err.path} the value is 
-    ${err.stringValue} invalid`, 404)
+    let value = err.message.match(/"(.*?)"/)[0]
+    return new AppError(`the name  
+    ${value} already exists`, 404)
 
 }
 
