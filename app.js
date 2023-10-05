@@ -1,5 +1,5 @@
 
-
+`node --trace-warnings ...`
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit')
@@ -18,6 +18,7 @@ const globalError = require('./Controllers/errorController')
 //routes
 const tourRoutes = require('./Routes/tourRoutes');
 const userRoutes = require('./Routes/userRoutes');
+const review = require('./Routes/reviewRoutes');
 
 //bunch of methods to app variable 
 const app = express();
@@ -43,7 +44,7 @@ app.use(morgan('dev'))  //POST / 200 6.252 ms - 13
 // we can serve static files even 
 app.use(express.static(`${__dirname}/public`))
 app.use((req, res, next) => {
-    console.log(req.headers);
+    // console.log(req.headers);
     next()
 
 })
@@ -60,6 +61,7 @@ app.use('/api', limiter);
 
 app.use('/api/v1/tours', tourRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/reviews', review);
 
 
 app.all('*', (req, res, next) => {

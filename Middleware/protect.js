@@ -8,8 +8,11 @@ exports.protectRoute = catchAsync(async (req, res, next) => {
 
     // with the help of jwt we will fetch the user from it 
     let token;
-    console.log(req.headers);
-    console.log(req.headers.authorization);
+    // console.log(req.headers);
+    // console.log(req.headers.authorization);
+    if (!req.headers.authorization) {
+        return next(new AppError("you need to login to perform further task ", 400))
+    }
 
     if (req.headers.authorization.startsWith("Bearer")) {
         token = req.headers.authorization.split(" ")[1]
@@ -63,7 +66,6 @@ exports.protectRoute = catchAsync(async (req, res, next) => {
     next()
 
 })
-
 
 
 

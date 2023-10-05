@@ -60,15 +60,16 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
         select: false
-    }
+    },
+
 })
 
 // we will add query middleware 
-userSchema.pre(/^find/, function (next) {
+// userSchema.pre(/^find/, function (next) {
 
-    this.find({ active: { $ne: true } })
-    next()
-})
+//     // this.find({ active: { $ne: true } })
+//     next()
+// })
 
 
 
@@ -78,7 +79,7 @@ userSchema.pre('save', async function (next) {
 
 
     if (!this.isModified('password')) {
-        console.log("in");
+        // console.log("in");
         return next();
     }
 

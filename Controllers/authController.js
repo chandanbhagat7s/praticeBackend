@@ -4,7 +4,6 @@ const catchAsync = require('../utils/catchAsync');
 const User = require('./../Model/User');
 const jwt = require('jsonwebtoken');
 
-const bcrypt = require("bcryptjs")
 
 const crypto = require('crypto');
 const sendMail = require('./../utils/sendEmail');
@@ -27,7 +26,7 @@ const createTokenSendResponse = (id, res, statusCode, message) => {
         ),
         httpOnly: true
     };
-    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+    if (process.env.NODE_ENV === 'production') { cookieOptions.secure = true; }
     res.cookie('jwt', token, cookieOptions);
     res.status(statusCode).json({
         status: 'success',
@@ -60,15 +59,17 @@ exports.login = catchAsync(async (req, res, next) => {
     if (!email || !password) {
         return next(new AppError("please Enter email and password both ", 400));
     }
-
-    const user = await User.findOne({ email }).select('+password')
-    console.log(user);
+    console.log(email);
+    const user = await User.findOne({ email }).select('password')
+    console.log(user)
 
     if (!user || ! await user.correctPass(password, user.password)) {
         return next(new AppError("please check your email and passord", 400))
     }
 
-    createTokenSendResponse(user._id, res, 200, "you are logged in")
+
+    createTokenSendResponse(user._id, res, 200, "you are logged")
+
 
 
 
@@ -156,15 +157,6 @@ exports.changePassword = catchAsync(async (req, res, next) => {
     user.Cnfpassword = Cnfpassword;
     await user.save()
     createTokenSendResponse(user._id, res, 200, "you have chaged password succesfully ")
-
-
-
-
-
-
-
-
-
 
 
 
